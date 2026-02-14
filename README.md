@@ -2,6 +2,26 @@
 
 A machine learning-based real-time email phishing detection system built using FastAPI and an interactive frontend.
 
+---
+
+## 🌐 Live Demo
+
+🔗 https://real-time-phishing-detection.onrender.com
+
+## 📄 API Documentation (Swagger)
+
+🔗 https://real-time-phishing-detection.onrender.com/docs
+
+---
+
+## 📸 Application Screenshot
+
+![Email Phishing Detector Demo](screenshots/appdemo.png)
+
+---
+
+
+
 ## 🚀 Features
 - Real-time phishing email classification
 - TF-IDF vectorization
@@ -10,13 +30,19 @@ A machine learning-based real-time email phishing detection system built using F
 - Interactive frontend
 - Docker support
 
-## 🏗 Project Structure
-```
-api/        # FastAPI backend
-frontend/   # HTML, CSS, JS interface
-models/     # Trained ML models
-notebooks/  # Model training notebook
-```
+
+## 📊 Model Performance
+
+The model was trained using TF-IDF vectorization with Logistic Regression classifier.
+
+- **Accuracy:** 98%
+- **Dataset Size:** 16,498 emails
+- **Evaluation Metrics:**
+  - Precision: 0.98
+  - Recall: 0.98
+  - F1-Score: 0.98
+
+The model demonstrates strong performance in detecting phishing emails while maintaining high precision and recall.
 
 
 
@@ -26,6 +52,17 @@ notebooks/  # Model training notebook
 - FastAPI
 - HTML/CSS/JavaScript
 - Docker
+
+
+
+
+## 🏗 Project Structure
+```
+api/        # FastAPI backend
+frontend/   # HTML, CSS, JS interface
+models/     # Trained ML models
+notebooks/  # Model training notebook
+```
 
 
 
@@ -44,7 +81,7 @@ git clone https://github.com/surelyravi/real-time-phishing-detection.git
 cd real-time-phishing-detection
 ```
 
-2. Create a virtual environment:
+2. Create and activate a virtual environment:
 
 ```bash
 python -m venv venv
