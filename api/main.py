@@ -1,10 +1,17 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+from pydantic import BaseModel, Field
 import pickle
 import re
 import logging
+import time
 
+
+# ----------------------------
 # Configure logging
+# ----------------------------
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s"
@@ -12,6 +19,10 @@ logging.basicConfig(
 
 
 app = FastAPI()
+
+# ----------------------------
+# CORS Middleware
+# ----------------------------
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -20,6 +31,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# ----------------------------
+# Serve Static Frontend Files
+# ----------------------------
+app.mount("/static", StaticFiles(directory="frontend"), name="static")
 
 
 # ----------------------------
@@ -51,11 +66,17 @@ def clean_text(text):
     return text
 
 
+# ----------------------------
+# Serve Frontend HTML at Root
+# ----------------------------
 @app.get("/")
-def home():
-    return {"message": "Phishing Detection API is running"}
+def serve_frontend():
+    return FileResponse("frontend/index.html")
 
 
+# ----------------------------
+# Health Check Endpoint
+# ----------------------------
 @app.get("/health")
 def health_check():
     return {
@@ -64,9 +85,6 @@ def health_check():
         "model_version": MODEL_VERSION
     }
 
-
-
-from pydantic import BaseModel, Field
 
 # ----------------------------
 # Request schema
@@ -78,9 +96,6 @@ class EmailRequest(BaseModel):
 # ----------------------------
 # Prediction endpoint
 # ----------------------------
-import time
-from fastapi import HTTPException
-
 @app.post("/predict")
 def predict_email(data: EmailRequest):
     start_time = time.time()
@@ -121,11 +136,6 @@ def predict_email(data: EmailRequest):
             "processing_time_seconds": processing_time
         }
 
-
     except Exception as e:
         logging.error(f"Prediction error: {str(e)}")
         raise HTTPException(status_code=500, detail="Internal server error")
-
-
-
-
